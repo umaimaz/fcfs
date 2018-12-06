@@ -1,0 +1,57 @@
+process=[]
+bursttime=[]
+start=[]
+arrival=[]
+wt=[]
+tat=[]
+finish=[]
+avgwt=0
+avgtat=0
+print ("enter the proceess")
+n=int(input())
+for i in range(0,n):
+      process.insert(i,i+1)
+print("Etner the burst time")
+bursttime=list(map(int, input().split()))
+
+print("Etner the arrival time")
+arrival=list(map(int, input().split()))
+
+for i in range(0,len(arrival)-1):  
+ for j in range(i,len(process),1):
+  if(arrival[i]>arrival[j]):
+   temp=arrival[j]
+   arrival[j]=arrival[i]
+   arrival[i]=temp
+
+i=0
+runTIme=0
+while True:
+    if(i>=len(bursttime)):
+        break
+    if(arrival[i]<=runTIme):
+         start.append(runTIme)
+         runTIme=runTIme+bursttime[i]
+         finish.append(runTIme)
+         i=i+1
+    else:
+        runTIme=runTIme+1
+for i in range(len(start)):
+    tat.append(finish[i]-arrival[i])
+    wt.append(start[i]-arrival[i])
+
+for i in range(len(start)):
+    avgwt = avgwt + tat[i]
+    avgtat = avgtat + wt[i]
+
+avgwt=float(avgwt)/n
+avgtat=float(avgtat)/n
+
+ 
+print("\n")
+print("Process\t  Burst Time\t  Waiting Time\t  Turn Around Time")
+for i in range(0,n):
+ print(str(process[i])+"\t\t\t"+str(bursttime[i])+"\t\t\t\t"+str(wt[i])+"\t\t\t\t"+str(tat[i]))
+ print("\n")
+print("Average Waiting time is: "+str(avgwt))
+print("Average Turn Arount Time is: "+str(avgtat))
