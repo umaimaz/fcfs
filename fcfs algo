@@ -25,17 +25,17 @@ for i in range(0,len(arrival)-1):
    arrival[i]=temp
 
 i=0
-runTIme=0
+runtime=0
 while True:
     if(i>=len(bursttime)):
         break
-    if(arrival[i]<=runTIme):
-         start.append(runTIme)
-         runTIme=runTIme+bursttime[i]
-         finish.append(runTIme)
+    if(arrival[i]<=runtime):
+         start.append(runtime)
+         runtime=runtime+bursttime[i]
+         finish.append(runtime)
          i=i+1
     else:
-        runTIme=runTIme+1
+        runtime=runtime+1
 for i in range(len(start)):
     tat.append(finish[i]-arrival[i])
     wt.append(start[i]-arrival[i])
@@ -51,7 +51,7 @@ avgtat=float(avgtat)/n
 print("\n")
 print("Process\t  Burst Time\t  Waiting Time\t  Turn Around Time")
 for i in range(0,n):
- print(str(process[i])+"\t\t\t"+str(bursttime[i])+"\t\t\t\t"+str(wt[i])+"\t\t\t\t"+str(tat[i]))
+ print(str(process[i])+"\t\t"+str(bursttime[i])+"\t\t"+str(wt[i])+"\t\t"+str(tat[i]))
  print("\n")
 print("Average Waiting time is: "+str(avgwt))
 print("Average Turn Arount Time is: "+str(avgtat))
