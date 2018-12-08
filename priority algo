@@ -1,0 +1,110 @@
+process = []
+bursttime = []
+start = []
+arrival = []
+priority = []
+wt = []
+tat = []
+finish = []
+avgwt = 0
+avgtat = 0
+print("enter the proceess")
+n = int(input())
+for i in range(0, n):
+    process.insert(i, i + 1)
+
+print("Etner the arrival time")
+arrival = list(map(int, input().split()))
+
+print("Etner the burst time")
+bursttime = list(map(int, input().split()))
+
+print("Enter priority")
+priority = list(map(int, input().split()))  # priority input
+
+for i in range(0, len(arrival) - 1):  #sorting processes according to their arrival time
+    for j in range(i, len(process), 1):
+        if (arrival[i] > arrival[j]):
+            temp = arrival[j]
+            arrival[j] = arrival[i]
+            arrival[i] = temp
+
+            temp1 = bursttime[j]
+            bursttime[j] = bursttime[i]  # swap bursttime
+            bursttime[i] = temp1
+
+            temp1 = priority[j]
+            priority[j] = priority[i]  # swap bursttime
+            priority[i] = temp1
+
+            temp1 = process[j]
+            process[j] = process[i]  # swap bursttime
+            process[i] = temp1
+i = 0
+runtime = 0
+while True:
+    if (i >= len(bursttime)):
+        break
+    if (arrival[i] <= runtime):
+            for j in range(i+1,len(arrival),1):
+              if (arrival[j] <= runtime):
+                if (priority[j] < priority[i]):
+                    temp3 = priority[i]
+                    priority[i] = priority[j]
+                    priority[j] = temp3
+
+                    temp = arrival[i]
+                    arrival[i] = arrival[j]  # swap arival as priority is high of other process
+                    arrival[j] = temp
+
+                    temp1 = bursttime[i]
+                    bursttime[i] = bursttime[j]  # swap bursttime
+                    bursttime[j] = temp1
+
+                    temp1 = process[i]
+                    process[i] = process[j]  # swap bursttime
+                    process[j] = temp1
+
+                elif (priority[i] == priority[j]):
+                    if (arrival[j] < arrival[i]):
+                        temp3 = priority[i]
+                        priority[i] = priority[j]
+                        priority[j] = temp3
+
+                        temp = arrival[i]
+                        arrival[i] = arrival[j]  # swap arival as priority is high of other process
+                        arrival[j] = temp
+
+                        temp1 = bursttime[i]
+                        bursttime[i] = bursttime[j]  # swap bursttime
+                        bursttime[j] = temp1
+
+                        temp1 = process[i]
+                        process[i] = process[j]  # swap bursttime
+                        process[j] = temp1
+
+            start.append(runtime)
+            runtime = runtime + bursttime[i]
+            finish.append(runtime)
+            i = i + 1
+    else:
+        runtime = runtime + 1
+
+for i in range(len(start)):
+    tat.append(finish[i] - arrival[i])
+    wt.append(start[i] - arrival[i])
+
+for i in range(len(start)):
+    avgwt = avgwt + tat[i]
+    avgtat = avgtat + wt[i]
+
+avgwt = float(avgwt) / n
+avgtat = float(avgtat) / n
+
+print("\n")
+print("Process\t Pirority\t Arrival Time\t Burst Time\t  Waiting Time\t  Turn Around Time  ")
+for i in range(0,n):
+ print(str(process[i])+"\t\t"+str(priority[i])+"\t\t"+str(arrival[i])+"\t\t"+str(bursttime[i])+"\t\t"+str(wt[i])+"\t\t"+str(tat[i]))
+ print("\n")
+print("Average Waiting time is: "+str(avgwt))
+print("Average Turn Arount Time is: "+str(avgtat))
